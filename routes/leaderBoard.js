@@ -18,5 +18,20 @@ router.get("/", function (req, res, next) {
   })
 });
 
+router.get("/count", function (req, res, next) {
+  User.count()
+    .then(result => {
+      res.json({
+        result: result
+      })
+  }).catch(err => {
+      console.log(err);
+      res.json({
+          message: "Something went wrong"
+      })
+  })
+});
+
+
 
 module.exports = router;
