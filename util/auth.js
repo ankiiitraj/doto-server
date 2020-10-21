@@ -12,7 +12,7 @@ module.exports = function authenticateJWT (req, res, next) {
           message: "Token expired or tampred, Login again"
         });
       }
-      req.email = user.email;
+      req.email = user.email || null;
       next();
     });
   } else {
