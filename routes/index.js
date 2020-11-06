@@ -119,4 +119,39 @@ router.put('/done', auth, (req, res, next) =>{
   
 });
 
+router.get("/user-settings", auth, (req, res, next) => {
+  User.findOne({email: req.email}, "-done -name")
+    .then(result => {
+      res.status(200).json({
+        message: "OK",
+        result
+      })
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: "something went wrong!"
+      })
+    })
+})
+router.put("/user-settings", auth, (req, res, next) => {
+  const {item, value} = req.body;
+  const obj = new Object();
+  obj[item] = value;
+  User.findOneAndUpdate({email: req.email}, {
+      ...obj 
+    }, {multi: true}
+  )
+  .then((result) => {
+    res.status(200).json({
+      message: "OK"
+    })
+  })
+  .catch((err) => {
+    console.log(err);
+    res.status(500).json({
+      message: "Something went wrong!"
+    })
+  })
+})
+
 module.exports = router;
