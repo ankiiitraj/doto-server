@@ -42,7 +42,7 @@ router.get("/auth", async (req, res, next) => {
             picture
           });
       } else {
-        const user = new User({ email, given_name });
+        const user = new User({ email, name: given_name });
         user
           .save()
           .then(() => {
