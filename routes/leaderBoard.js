@@ -3,12 +3,13 @@ const router = express.Router();
 const User = require("../models/user.model");
 
 router.get("/", function (req, res, next) {
+  const offset = parseInt(req.query.offset) || 0, limit = 25;
   User.find({}, {name: 1, _id: 0, done: 2, inLeaderboard: 3, username: 4, email: 5})
     .then(result => {
-      result = result.filter(elem => elem.done.length > 0);
+      result = result.filter(elem => elem.done.length > 0 && elem.inLeaderboard === true);
       result.sort((a, b) => b.done.length - a.done.length);
       const requiredResult = [];
-      for(let i = 0; i < result.length; ++i){
+      for(let i = offset; i < Math.min(result.length, offset + limit); ++i){
         requiredResult.push({
           username: result[i].username || result[i].email.split("@")[0],
           name: result[i].name,
