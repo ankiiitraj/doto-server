@@ -9,7 +9,7 @@ const indexRouter = require('./routes/index');
 const leaderBoardRouter = require('./routes/leaderBoard');
 const adminRouter = require('./routes/admin.js');
 
-mongoose.connect(process.env.MONGO_DB_URL, {useUnifiedTopology: true, useNewUrlParser: true});
+mongoose.connect(process.env.MONGO_DB_URL, {useUnifiedTopology: true, useNewUrlParser: true}).then(resp => {console.log("connected to mongo!")});
 
 const app = express();
 
