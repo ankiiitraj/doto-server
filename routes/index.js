@@ -175,4 +175,48 @@ router.put("/user-settings", auth, (req, res, next) => {
   })
 })
 
+
+// CP route
+
+router.put('/doneCP', auth, (req, res, next) =>{
+  const {email} = req, {id, ty} = req.body;
+  if(ty === 'add'){
+    User.findOneAndUpdate({
+      email: email,
+      doneKartikCP: {
+          "$not": {
+              "$elemMatch":{
+                id
+              } 
+          }
+        }
+      }, {
+      $addToSet: {
+          doneKartikCP: id
+      }
+    })
+      .then(result => {
+        res.status(200).json({message: "OK"});
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({message: "some went wrong!"})
+      })
+  }else{
+    User.update({email: email}, {
+      $pull: {
+        doneKartikCP: id
+      }
+    }, { multi: true })
+      .then(result => {
+        res.status(200).json({message: "OK"});
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({message: "some went wrong!"})
+      })
+  }
+  
+});
+
 module.exports = router;

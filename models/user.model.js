@@ -16,6 +16,9 @@ const userSchema = new mongoose.Schema({
   done: {
     type: [Number],
   },
+  doneKartikCP:{
+    type: [Number]
+  },
   createdAt: {
     required: true,
     type: Date,
