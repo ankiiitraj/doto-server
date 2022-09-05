@@ -39,4 +39,4 @@ Server files for Doto project!
 ##### Method: 
 * GET:  
     * Get the count of registered users.
-----
+
